@@ -22,3 +22,6 @@ weights/
 *.cache
 machine_learning/training_status.lock
 machine_learning/training_status.tmp
+
+.vercel/
+.env.local
