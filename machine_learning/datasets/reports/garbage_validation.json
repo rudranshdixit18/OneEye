@@ -1,0 +1,10 @@
+{
+  "model": "garbage",
+  "task": "detect",
+  "counts": {
+    "train": 2527,
+    "val": 225,
+    "test": 225
+  },
+  "errors": []
+}

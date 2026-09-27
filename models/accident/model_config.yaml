@@ -1,0 +1,10 @@
+model_name: accident
+task: classify
+base_model: yolo11n-cls.pt
+data: machine_learning/datasets/processed/accident
+epochs: 45
+image_size: 224
+batch: 16
+patience: 10
+positive_classes:
+- accident

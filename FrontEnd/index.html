@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OneEye — Enterprise AI Surveillance & Vision Intelligence</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div id="hosted-preview-notice" style="display:none;background:#102b36;color:#e8fbff;padding:12px 20px;text-align:center;font:600 13px/1.5 'Plus Jakarta Sans',sans-serif;">
+        OneEye web preview: dashboard navigation is available here. Live camera, model inference, alerts, and saved settings require the separately running local FastAPI backend.
+    </div>
+    <script>if (location.hostname.endsWith('.vercel.app')) document.getElementById('hosted-preview-notice').style.display = 'block';</script>
+    <!-- Top Navigation Bar -->
+    <nav class="navbar">
+        <div class="logo">
+            <div class="logo-icon-wrapper">
+                <!-- Sleek Sentinel Eye SVG -->
+                <svg class="logo-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z" />
+                    <circle cx="12" cy="12" r="3" />
+                    <circle cx="12" cy="12" r="1" fill="currentColor" />
+                </svg>
+            </div>
+            <div class="logo-text">
+                <span class="logo-title">OneEye</span>
+                <span class="logo-badge">SENTINEL AI</span>
+            </div>
+        </div>
+
+        <ul class="nav-menu">
+            <li class="nav-item active" data-section="dashboard">
+                <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect width="7" height="9" x="3" y="3" rx="1" />
+                    <rect width="7" height="5" x="14" y="3" rx="1" />
+                    <rect width="7" height="9" x="14" y="12" rx="1" />
+                    <rect width="7" height="5" x="3" y="16" rx="1" />
+                </svg>
+                <span>Dashboard</span>
+            </li>
+            <li class="nav-item" data-section="live">
+                <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="m16 13 5.223 3.482a.5.5 0 0 0 .777-.416V7.934a.5.5 0 0 0-.777-.416L16 11" />
+                    <rect width="14" height="12" x="2" y="6" rx="2" />
+                </svg>
+                <span>Live Feed</span>
+            </li>
+            <li class="nav-item" data-section="detections">
+                <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z" />
+                    <line x1="12" x2="12" y1="9" y2="13" />
+                    <line x1="12" x2="12.01" y1="17" y2="17" />
+                </svg>
+                <span>Detections</span>
+            </li>
+            <li class="nav-item" data-section="analytics">
+                <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M3 3v18h18" />
+                    <path d="m19 9-5 5-4-4-3 3" />
+                </svg>
+                <span>Analytics</span>
+            </li>
+            <li class="nav-item" data-section="settings">
+                <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path
+                        d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z" />
+                    <circle cx="12" cy="12" r="3" />
+                </svg>
+                <span>Settings</span>
+            </li>
+        </ul>
+
+        <!-- System Telemetry Status Bar -->
+        <div class="nav-system-status">
+            <div class="status-indicator">
+                <span class="status-dot pulse-emerald"></span>
+                <span class="status-label" id="backend-status">BACKEND CONNECTING</span>
+            </div>
+            <div class="header-clock" id="header-clock">--:--:-- UTC</div>
+        </div>
+    </nav>
+
+    <main>
+        <!-- Dashboard Section -->
+        <section id="dashboard" class="section active-section">
+            <div class="section-header">
+                <div>
+                    <h1 class="section-title">Dashboard Overview</h1>
+                    <p class="section-subtitle">Real-time edge telemetry, automated vision inference, and security
+                        alerts</p>
+                </div>
+                <div class="header-meta">
+                    <span class="badge-pill" id="channels-status">4 Channels Configured</span>
+                    <span class="badge-pill active" id="inference-status">Inference: -- ms</span>
+                </div>
+            </div>
+
+            <div class="dashboard-grid">
+                <!-- Camera Feed Column -->
+                <div class="camera-feed">
+                    <div class="feed-header">
+                        <div class="feed-title">
+                            <span class="feed-live-dot"></span>
+                            <span>Live Camera Feed</span>
+                        </div>
+                        <div class="feed-controls-micro">
+                            <span class="feed-cam-select active" data-cam="1">CAM-01</span>
+                            <span class="feed-cam-select" data-cam="2">CAM-02</span>
+                            <span class="feed-cam-select" data-cam="3">CAM-03</span>
+                            <span class="feed-cam-select" data-cam="4">CAM-04</span>
+                        </div>
+                    </div>
+
+                    <!-- Preserved container with authentic CCTV HUD standby -->
+                    <div class="feed-video-placeholder pulse" id="dashboard-feed-viewport">
+                        <div class="cctv-hud-overlay">
+                            <!-- Top HUD Bar -->
+                            <div class="hud-top-bar">
+                                <div class="hud-tag">
+                                    <span class="hud-cam-id" id="hud-cam-name">CAM-01 // MAIN ENTRANCE</span>
+                                    <span class="hud-resolution" id="hud-stream-mode">REQUEST 1080P • 60 FPS</span>
+                                </div>
+                                <div class="hud-rec-badge" id="hud-rec-indicator">
+                                    <span class="rec-dot"></span>
+                                    <span class="rec-text">REC</span>
+                                    <span class="rec-timer" id="hud-rec-timer">00:14:32</span>
+                                </div>
+                            </div>
+
+                            <!-- Center Viewfinder / Reticle -->
+                            <div class="hud-reticle">
+                                <div class="reticle-corner top-left"></div>
+                                <div class="reticle-corner top-right"></div>
+                                <div class="reticle-corner bottom-left"></div>
+                                <div class="reticle-corner bottom-right"></div>
+                                <div class="reticle-crosshair"></div>
+                                <div class="hud-standby-info">
+                                    <svg class="hud-cam-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="1.5">
+                                        <path
+                                            d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z" />
+                                        <circle cx="12" cy="13" r="4" />
+                                    </svg>
+                                    <div class="standby-title">SURVEILLANCE STREAM READY</div>
+                                    <div class="standby-desc">RTSP / WebRTC Video Feed Container Active</div>
+                                </div>
+                            </div>
+
+                            <!-- Bottom HUD Bar -->
+                            <div class="hud-bottom-bar">
+                                <div class="hud-telemetry">
+                                    <span>ENC: H.265</span>
+                                    <span>BITRATE: <b id="hud-bitrate">4.2 Mbps</b></span>
+                                    <span>LATENCY: <b>18ms</b></span>
+                                </div>
+                                <div class="hud-timestamp" id="hud-timestamp">
+                                    2026-08-27 11:45:00 UTC
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Stats Cards Column -->
+                <div class="stats-cards">
+                    <div class="stat-card blue" id="stat-people">
+                        <div class="stat-card-header">
+                            <div class="stat-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+                                    <circle cx="9" cy="7" r="4" />
+                                    <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
+                                    <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+                                </svg>
+                            </div>
+                            <span class="stat-trend positive">+8% vs avg</span>
+                        </div>
+                        <div class="stat-label">People Count</div>
+                        <div class="stat-value animated-counter" id="stat-people-value" data-value="0">0</div>
+                        <div class="stat-footer">Zone occupancy normal</div>
+                    </div>
+
+                    <div class="stat-card red" id="stat-fights">
+                        <div class="stat-card-header">
+                            <div class="stat-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path
+                                        d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z" />
+                                    <line x1="12" x2="12" y1="9" y2="13" />
+                                    <line x1="12" x2="12.01" y1="17" y2="17" />
+                                </svg>
+                            </div>
+                            <span class="stat-trend critical">Action Required</span>
+                        </div>
+                        <div class="stat-label">Fights Detected</div>
+                        <div class="stat-value animated-counter" id="stat-fights-value" data-value="0">0</div>
+                        <div class="stat-footer">Confirmed incidents in 24 hours</div>
+                    </div>
+
+                    <div class="stat-card orange" id="stat-garbage">
+                        <div class="stat-card-header">
+                            <div class="stat-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M3 6h18" />
+                                    <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" />
+                                    <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" />
+                                    <line x1="10" x2="10" y1="11" y2="17" />
+                                    <line x1="14" x2="14" y1="11" y2="17" />
+                                </svg>
+                            </div>
+                            <span class="stat-trend warning">Sanitation</span>
+                        </div>
+                        <div class="stat-label">Garbage Detected</div>
+                        <div class="stat-value animated-counter" id="stat-garbage-value" data-value="0">0</div>
+                        <div class="stat-footer">Trash / debris hotspots</div>
+                    </div>
+
+                    <div class="stat-card orange" id="stat-fallen">
+                        <div class="stat-card-header"><div class="stat-icon">⚠</div><span class="stat-trend warning">Safety</span></div>
+                        <div class="stat-label">Fallen Persons</div>
+                        <div class="stat-value animated-counter" id="stat-fallen-value" data-value="0">0</div>
+                        <div class="stat-footer">Confirmed person-down events</div>
+                    </div>
+
+                    <div class="stat-card blue" id="stat-phone">
+                        <div class="stat-card-header"><div class="stat-icon">▣</div><span class="stat-trend positive">Compliance</span></div>
+                        <div class="stat-label">Mobile Phones</div>
+                        <div class="stat-value animated-counter" id="stat-phone-value" data-value="0">0</div>
+                        <div class="stat-footer">Phone-use detections</div>
+                    </div>
+
+                    <div class="stat-card red" id="stat-accident">
+                        <div class="stat-card-header"><div class="stat-icon">!</div><span class="stat-trend critical">Critical</span></div>
+                        <div class="stat-label">Accidents</div>
+                        <div class="stat-value animated-counter" id="stat-accident-value" data-value="0">0</div>
+                        <div class="stat-footer">Traffic and site incidents</div>
+                    </div>
+
+                    <div class="stat-card green" id="stat-alerts">
+                        <div class="stat-card-header">
+                            <div class="stat-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9" />
+                                    <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0" />
+                                </svg>
+                            </div>
+                            <span class="stat-trend nominal">Live Monitoring</span>
+                        </div>
+                        <div class="stat-label">Active Alerts</div>
+                        <div class="stat-value animated-counter" id="stat-alerts-value" data-value="0">0</div>
+                        <div class="stat-footer">High-priority dispatches</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Detections -->
+            <div class="recent-detections">
+                <div class="recent-header">
+                    <div>
+                        <div class="recent-title">Recent Detections</div>
+                        <div class="recent-subtitle">Live AI event stream classified by neural visual models</div>
+                    </div>
+                    <!-- Interactive Filter Tabs -->
+                    <div class="detection-filter-tabs">
+                        <button class="filter-btn active" data-filter="all">All Events</button>
+                        <button class="filter-btn" data-filter="fight">Fights</button>
+                        <button class="filter-btn" data-filter="garbage">Garbage</button>
+                        <button class="filter-btn" data-filter="fallen_person">Fallen Person</button>
+                        <button class="filter-btn" data-filter="mobile_phone">Mobile Phone</button>
+                        <button class="filter-btn" data-filter="accident">Accidents</button>
+                    </div>
+                </div>
+                <ul class="detections-list" id="detections-list">
+                    <!-- Populated by JS -->
+                </ul>
+            </div>
+        </section>
+
+        <!-- Live Feed Section -->
+        <section id="live" class="section">
+            <div class="section-header">
+                <div>
+                    <h1 class="section-title">Live Feed Controls</h1>
+                    <p class="section-subtitle">Real-time optical feed control, PTZ adjustment, and capture stream
+                        parameters</p>
+                </div>
+            </div>
+
+            <div class="live-controls">
+                <div class="controls-action-group">
+                    <button class="btn blue" id="btn-start">
+                        <svg class="btn-icon" viewBox="0 0 24 24" fill="currentColor">
+                            <polygon points="5 3 19 12 5 21 5 3" />
+                        </svg>
+                        <span>Start Camera</span>
+                    </button>
+                    <button class="btn red" id="btn-stop">
+                        <svg class="btn-icon" viewBox="0 0 24 24" fill="currentColor">
+                            <rect x="4" y="4" width="16" height="16" rx="2" />
+                        </svg>
+                        <span>Stop Camera</span>
+                    </button>
+                    <button class="btn green" id="btn-record">
+                        <span class="btn-record-dot"></span>
+                        <span id="btn-record-text">Toggle Recording</span>
+                    </button>
+                </div>
+
+                <div class="controls-config-group">
+                    <label class="control-label">
+                        <span>Stream Quality:</span>
+                        <select class="quality-selector">
+                            <option value="1080p">High (1080p 60fps)</option>
+                            <option value="720p">Medium (720p 30fps)</option>
+                            <option value="480p">Low (480p 24fps)</option>
+                        </select>
+                    </label>
+                    <label class="control-label range-label">
+                        <span>Alert Volume: <span id="volume-readout" class="mono-readout">30%</span></span>
+                        <input type="range" min="0" max="100" value="30" id="alert-volume-slider" />
+                    </label>
+                </div>
+            </div>
+
+            <!-- Preserved large container with authentic CCTV HUD -->
+            <div class="feed-video-placeholder pulse large" id="live-feed-viewport">
+                <div class="cctv-hud-overlay">
+                    <div class="hud-top-bar">
+                        <div class="hud-tag">
+                            <span class="hud-cam-id">MAIN FEED // ULTRA-HD OPTICAL STREAM</span>
+                            <span class="hud-resolution">H.265 RTSP // AUTO-EXPOSURE ON</span>
+                        </div>
+                        <div class="hud-rec-badge">
+                            <span class="rec-dot"></span>
+                            <span class="rec-text">LIVE STANDBY</span>
+                        </div>
+                    </div>
+                    <div class="hud-reticle">
+                        <div class="reticle-corner top-left"></div>
+                        <div class="reticle-corner top-right"></div>
+                        <div class="reticle-corner bottom-left"></div>
+                        <div class="reticle-corner bottom-right"></div>
+                        <div class="reticle-crosshair"></div>
+                        <div class="hud-standby-info">
+                            <div class="radar-scan"></div>
+                            <div class="standby-title">BACKEND FEED STREAMING PORT READY</div>
+                            <div class="standby-desc">Connect RTSP server, OpenCV VideoCapture, or WebRTC stream to
+                                .feed-video-placeholder</div>
+                        </div>
+                    </div>
+                    <div class="hud-bottom-bar">
+                        <div class="hud-telemetry">
+                            <span>OPTICAL ZOOM: 1.0X</span>
+                            <span>COLORSPACE: REC.709</span>
+                            <span>STATUS: READY</span>
+                        </div>
+                        <div class="hud-timestamp" id="hud-timestamp-live">
+                            2026-08-27 11:45:00 UTC
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Detections Section -->
+        <section id="detections" class="section">
+            <div class="section-header">
+                <div>
+                    <h1 class="section-title">Detections Registry</h1>
+                    <p class="section-subtitle">Categorized history of computer vision inferences, confidence metrics,
+                        and incident tags</p>
+                </div>
+                <div class="search-box-wrapper">
+                    <input type="text" id="detections-search" placeholder="Search by location, type, or camera..."
+                        class="search-input">
+                </div>
+            </div>
+
+            <div class="detections-container">
+                <ul class="detections-list" id="detections-list-detail">
+                    <!-- Populated by JS -->
+                </ul>
+            </div>
+        </section>
+
+        <!-- Analytics Section -->
+        <section id="analytics" class="section">
+            <div class="section-header">
+                <div>
+                    <h1 class="section-title">Analytics & Trends</h1>
+                    <p class="section-subtitle">24-hour incident telemetry, behavioral density, and anomaly heat
+                        patterns</p>
+                </div>
+                <div class="time-range-picker">
+                    <span class="range-chip active" data-hours="24">Last 24 Hours</span>
+                    <span class="range-chip" data-hours="168">Last 7 Days</span>
+                    <span class="range-chip" data-hours="720">Last 30 Days</span>
+                </div>
+            </div>
+
+            <!-- Preserved chart container populated with high-fidelity visual telemetry -->
+            <div class="chart-placeholder" id="chart-container">
+                <!-- Rich SVG Area Chart populated by script.js -->
+            </div>
+
+            <div class="analytics-summary">
+                <div class="summary-card red-border">
+                    <div class="summary-icon red-bg">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z" />
+                            <line x1="12" x2="12" y1="9" y2="13" />
+                            <line x1="12" x2="12.01" y1="17" y2="17" />
+                        </svg>
+                    </div>
+                    <div class="summary-details">
+                        <div class="summary-label">Fights Detected</div>
+                        <div class="summary-val red"><span class="red" id="analytics-fight-count">0</span> Incidents</div>
+                        <div class="summary-note" id="analytics-fight-note">No confirmed events</div>
+                    </div>
+                </div>
+
+                <div class="summary-card orange-border">
+                    <div class="summary-icon orange-bg">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M3 6h18" />
+                            <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" />
+                            <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" />
+                        </svg>
+                    </div>
+                    <div class="summary-details">
+                        <div class="summary-label">Garbage Detected</div>
+                        <div class="summary-val orange"><span class="orange" id="analytics-garbage-count">0</span> Instances</div>
+                        <div class="summary-note" id="analytics-garbage-note">No confirmed events</div>
+                    </div>
+                </div>
+
+                <div class="summary-card blue-border">
+                    <div class="summary-icon blue-bg">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+                            <circle cx="9" cy="7" r="4" />
+                        </svg>
+                    </div>
+                    <div class="summary-details">
+                        <div class="summary-label">Safety & Compliance</div>
+                        <div class="summary-val blue"><span class="blue" id="analytics-other-count">0</span> Incidents</div>
+                        <div class="summary-note">Falls, phones, and accidents</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="recent-detections-timeline">
+                <div class="recent-title">Detection Chronological Timeline</div>
+                <ul class="detections-timeline" id="detections-timeline">
+                    <!-- Populated by JS -->
+                </ul>
+            </div>
+        </section>
+
+        <!-- Settings Section -->
+        <section id="settings" class="section">
+            <div class="section-header">
+                <div>
+                    <h1 class="section-title">System Settings</h1>
+                    <p class="section-subtitle">Configure model confidence gates, alert routing, and surveillance
+                        preferences</p>
+                </div>
+            </div>
+
+            <div class="settings-grid">
+                <!-- General Preferences -->
+                <div class="settings-card">
+                    <div class="settings-card-title">
+                        <svg class="settings-title-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <circle cx="12" cy="12" r="3" />
+                            <path
+                                d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z" />
+                        </svg>
+                        <span>Display & Alerts Configuration</span>
+                    </div>
+
+                    <!-- Preserved exact labels and input elements for backend hooks -->
+                    <div class="settings-options">
+                        <label class="setting-item">
+                            <div class="setting-text">
+                                <span class="setting-name">Dark Mode</span>
+                                <span class="setting-desc">Tactical high-contrast dark theme (standard)</span>
+                            </div>
+                            <div class="toggle-switch">
+                                <input type="checkbox" checked disabled>
+                                <span class="slider round"></span>
+                            </div>
+                        </label>
+
+                        <label class="setting-item">
+                            <div class="setting-text">
+                                <span class="setting-name">Notifications</span>
+                                <span class="setting-desc">Real-time browser toasts on critical detections</span>
+                            </div>
+                            <div class="toggle-switch">
+                                <input type="checkbox" checked id="setting-notifications">
+                                <span class="slider round"></span>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Model Thresholds -->
+                <div class="settings-card">
+                    <div class="settings-card-title">
+                        <svg class="settings-title-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <path d="M12 20v-6M6 20V10M18 20V4" />
+                        </svg>
+                        <span>AI Inference Thresholds</span>
+                    </div>
+                    <div class="settings-sliders">
+                        <div class="slider-control">
+                            <div class="slider-header">
+                                <span>Fight / Altercation Threshold</span>
+                                <span class="mono-readout" id="fight-threshold-val">91%</span>
+                            </div>
+                            <input type="range" min="91" max="99" value="91" class="styled-range"
+                                id="fight-threshold-slider">
+                        </div>
+                        <div class="slider-control">
+                            <div class="slider-header"><span>Fallen Person Threshold</span><span class="mono-readout" id="fallen-threshold-val">91%</span></div>
+                            <input type="range" min="91" max="99" value="91" class="styled-range" id="fallen-threshold-slider">
+                        </div>
+                        <div class="slider-control">
+                            <div class="slider-header"><span>Mobile Phone Threshold</span><span class="mono-readout" id="phone-threshold-val">91%</span></div>
+                            <input type="range" min="91" max="99" value="91" class="styled-range" id="phone-threshold-slider">
+                        </div>
+                        <div class="slider-control">
+                            <div class="slider-header"><span>Accident Threshold</span><span class="mono-readout" id="accident-threshold-val">91%</span></div>
+                            <input type="range" min="91" max="99" value="91" class="styled-range" id="accident-threshold-slider">
+                        </div>
+                        <div class="slider-control">
+                            <div class="slider-header">
+                                <span>Garbage / Litter Threshold</span>
+                                <span class="mono-readout" id="garbage-threshold-val">91%</span>
+                            </div>
+                            <input type="range" min="91" max="99" value="91" class="styled-range"
+                                id="garbage-threshold-slider">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <div id="toast-container" class="toast-container"></div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

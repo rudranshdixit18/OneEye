@@ -1,0 +1,10 @@
+{
+  "model": "fallen_person",
+  "task": "classify",
+  "counts": {
+    "train": 937,
+    "val": 185,
+    "test": 163
+  },
+  "errors": []
+}

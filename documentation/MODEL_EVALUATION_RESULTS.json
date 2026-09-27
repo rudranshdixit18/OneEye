@@ -1,0 +1,109 @@
+{
+  "schema_version": "1.0",
+  "evaluated_on": "2026-09-13",
+  "promotion_gate": {
+    "comparison": ">",
+    "threshold": 0.95,
+    "note": "Every required held-out metric for the task must be strictly greater than 0.95."
+  },
+  "models": {
+    "fight": {
+      "task": "video_classification",
+      "source_report": "machine_learning/reports/fight_video_metrics.json",
+      "test_unit": "video",
+      "test_samples": 400,
+      "aggregation": "multiple_instance_log_mean_exp_across_short_windows",
+      "metrics": {
+        "accuracy": 0.8375,
+        "precision": 0.9141104294478528,
+        "recall": 0.745,
+        "specificity": 0.93,
+        "mean_top1_confidence": 0.8932566350698471,
+        "true_positives": 149,
+        "true_negatives": 186,
+        "false_positives": 14,
+        "false_negatives": 51
+      },
+      "quality_gate_passed": false,
+      "runtime_decision": "baseline_retained"
+    },
+    "garbage": {
+      "task": "object_detection",
+      "source_report": "machine_learning/reports/garbage_metrics.json",
+      "test_unit": "image",
+      "test_samples": 225,
+      "metrics": {
+        "precision": 0.6754370643238808,
+        "recall": 0.44488409981303545,
+        "map50": 0.4904143414622706,
+        "map50_95": 0.3539537083071312
+      },
+      "quality_gate_passed": false,
+      "runtime_decision": "baseline_retained"
+    },
+    "fallen_person": {
+      "task": "image_classification_with_video_grouped_split",
+      "source_report": "machine_learning/reports/fallen_person_metrics.json",
+      "test_unit": "frame",
+      "test_samples": 163,
+      "source_sequences": 9,
+      "metrics": {
+        "accuracy": 1.0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "specificity": 1.0,
+        "true_positives": 45,
+        "true_negatives": 118,
+        "false_positives": 0,
+        "false_negatives": 0,
+        "sequence_accuracy": 1.0,
+        "sequence_precision": 1.0,
+        "sequence_recall": 1.0,
+        "sequence_specificity": 1.0
+      },
+      "quality_gate_passed": true,
+      "runtime_decision": "expanded_model_exported"
+    },
+    "mobile_phone": {
+      "task": "object_detection",
+      "source_report": "machine_learning/reports/mobile_phone_metrics.json",
+      "test_unit": "image",
+      "test_samples": 793,
+      "metrics": {
+        "precision": 0.8731001487123601,
+        "recall": 0.8509719222462203,
+        "map50": 0.892189180230884,
+        "map50_95": 0.765237886158731
+      },
+      "quality_gate_passed": false,
+      "runtime_decision": "baseline_retained"
+    },
+    "accident": {
+      "task": "temporal_mosaic_classification",
+      "source_report": "machine_learning/reports/accident_metrics.json",
+      "test_unit": "mosaic",
+      "test_samples": 452,
+      "source_videos": 226,
+      "metrics": {
+        "accuracy": 0.7942478060722351,
+        "precision": 0.7903930131004366,
+        "recall": 0.8008849557522124,
+        "specificity": 0.7876106194690266,
+        "true_positives": 181,
+        "true_negatives": 178,
+        "false_positives": 48,
+        "false_negatives": 45,
+        "video_accuracy": 0.8008849557522124,
+        "video_precision": 0.7931034482758621,
+        "video_recall": 0.8141592920353983,
+        "video_specificity": 0.7876106194690266,
+        "video_true_positives": 92,
+        "video_true_negatives": 89,
+        "video_false_positives": 24,
+        "video_false_negatives": 21
+      },
+      "quality_gate_passed": false,
+      "runtime_decision": "baseline_retained"
+    }
+  }
+}

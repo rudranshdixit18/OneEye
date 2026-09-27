@@ -1,0 +1,81 @@
+datasets:
+  taco:
+    model: garbage
+    title: Trash Annotations in Context
+    official_url: https://github.com/pedropro/TACO
+    acquisition: taco
+    license: CC-BY-4.0
+    commercial_use: true
+    notes: COCO instance-segmentation annotations are converted to one garbage bounding-box class.
+  mju_waste:
+    model: garbage
+    title: MJU-Waste v1.0
+    official_url: https://github.com/realwecan/mju-waste
+    acquisition: google_drive_zip
+    google_drive_id: 1o101UBJGeeMPpI-DSY6oh-tLk9AHXMny
+    archive_name: mju-waste.zip
+    annotations_base_url: https://raw.githubusercontent.com/realwecan/mju-waste/master
+    license: MIT
+    commercial_use: true
+    notes: Official RGB waste images and COCO instance annotations. Only the official training split augments detector training; TACO validation and test remain independent.
+  open_images_mobile_phone:
+    model: mobile_phone
+    title: Open Images V7 - Mobile phone subset
+    official_url: https://storage.googleapis.com/openimages/web/download_v7.html
+    acquisition: open_images
+    license: per-image license metadata
+    commercial_use: review_required
+    notes: Only human-verified Mobile phone bounding boxes and a controlled number of negatives are downloaded.
+  ur_fall:
+    model: fallen_person
+    title: UR Fall Detection Dataset
+    official_url: https://fenix.ur.edu.pl/~mkepski/ds/uf.html
+    acquisition: ur_fall
+    license: CC-BY-NC-SA-4.0
+    commercial_use: false
+    notes: Academic/non-commercial only. RGB camera-0 sequences are used.
+  rwf_2000:
+    model: fight
+    title: RWF-2000
+    official_url: https://zenodo.org/records/15687512
+    acquisition: zenodo_7z
+    zenodo_record: 15687512
+    license: research use; original dataset conditions apply
+    commercial_use: false
+    notes: Open Zenodo record deposited by the dataset collector. The 9.4 GB multi-volume archive is downloaded with checksums and extracted locally for research use.
+  rwf_2000_hf:
+    model: fight
+    title: RWF-2000 individual-video mirror
+    official_url: https://github.com/mchengny/RWF2000-Video-Database-for-Violence-Detection
+    mirror_url: https://huggingface.co/datasets/A1mal/RWF-2000-Dataset
+    acquisition: huggingface_binary_video
+    repo_id: A1mal/RWF-2000-Dataset
+    folders:
+      fight_train: data/RWF-2000 Sliced/train/Fight
+      normal_train: data/RWF-2000 Sliced/train/NonFight
+      fight_test: data/RWF-2000 Sliced/val/Fight
+      normal_test: data/RWF-2000 Sliced/val/NonFight
+    license: research/non-commercial; original RWF-2000 conditions apply
+    commercial_use: false
+    notes: Individual-video mirror containing all 1,600 official training clips and 400 official validation clips; raw media is never redistributed.
+  nexar_collision:
+    model: accident
+    title: Nexar Collision Prediction Dataset
+    official_url: https://huggingface.co/datasets/nexar-ai/nexar_collision_prediction
+    acquisition: huggingface_binary_video
+    repo_id: nexar-ai/nexar_collision_prediction
+    folders:
+      accident: train/positive
+      normal: train/negative
+    row_metadata: nexar_collision
+    license: Nexar Open Data License
+    commercial_use: no_resale
+    notes: Official positive and negative dashcam videos. Attribution is required; resale and unethical uses are prohibited.
+  dota:
+    model: accident
+    title: Detection of Traffic Anomaly
+    official_url: https://github.com/MoonBlvd/Detection-of-Traffic-Anomaly
+    acquisition: manual
+    license: dataset usage terms must be reviewed separately from MIT code
+    commercial_use: review_required
+    notes: Official repository provides annotations and authorized download links; data is approximately 55 GB.

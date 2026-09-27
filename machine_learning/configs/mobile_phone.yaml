@@ -1,0 +1,11 @@
+model_name: mobile_phone
+task: detect
+base_model: yolo11s.pt
+data: machine_learning/datasets/processed/mobile_phone/data.yaml
+epochs: 80
+image_size: 768
+batch: 8
+patience: 15
+optimizer: AdamW
+learning_rate: 0.001
+positive_classes: [mobile_phone]

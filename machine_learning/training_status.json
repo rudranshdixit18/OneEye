@@ -1,0 +1,79 @@
+{
+  "models": {
+    "fight": {
+      "stage": "validate",
+      "status": "complete",
+      "details": {
+        "model": "fight",
+        "task": "classify",
+        "counts": {
+          "train": 3364,
+          "val": 716,
+          "test": 720
+        },
+        "errors": []
+      },
+      "updated_at": "2026-09-13T10:41:17.653879+00:00"
+    },
+    "garbage": {
+      "stage": "validate",
+      "status": "complete",
+      "details": {
+        "model": "garbage",
+        "task": "detect",
+        "counts": {
+          "train": 2527,
+          "val": 225,
+          "test": 225
+        },
+        "errors": []
+      },
+      "updated_at": "2026-09-13T10:41:21.765495+00:00"
+    },
+    "fallen_person": {
+      "stage": "validate",
+      "status": "complete",
+      "details": {
+        "model": "fallen_person",
+        "task": "classify",
+        "counts": {
+          "train": 937,
+          "val": 185,
+          "test": 163
+        },
+        "errors": []
+      },
+      "updated_at": "2026-09-13T10:41:24.327145+00:00"
+    },
+    "mobile_phone": {
+      "stage": "validate",
+      "status": "complete",
+      "details": {
+        "model": "mobile_phone",
+        "task": "detect",
+        "counts": {
+          "train": 2166,
+          "val": 538,
+          "test": 793
+        },
+        "errors": []
+      },
+      "updated_at": "2026-09-13T10:41:29.094334+00:00"
+    },
+    "accident": {
+      "stage": "validate",
+      "status": "complete",
+      "details": {
+        "model": "accident",
+        "task": "classify",
+        "counts": {
+          "train": 2100,
+          "val": 448,
+          "test": 452
+        },
+        "errors": []
+      },
+      "updated_at": "2026-09-13T10:41:32.435861+00:00"
+    }
+  }
+}

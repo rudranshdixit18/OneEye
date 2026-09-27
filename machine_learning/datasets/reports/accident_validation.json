@@ -1,0 +1,10 @@
+{
+  "model": "accident",
+  "task": "classify",
+  "counts": {
+    "train": 2100,
+    "val": 448,
+    "test": 452
+  },
+  "errors": []
+}

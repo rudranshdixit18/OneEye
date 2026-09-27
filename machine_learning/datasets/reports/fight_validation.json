@@ -1,0 +1,10 @@
+{
+  "model": "fight",
+  "task": "classify",
+  "counts": {
+    "train": 3364,
+    "val": 716,
+    "test": 720
+  },
+  "errors": []
+}

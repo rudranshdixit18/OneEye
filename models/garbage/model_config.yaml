@@ -1,0 +1,10 @@
+model_name: garbage
+task: detect
+base_model: yolo11n.pt
+data: machine_learning/datasets/processed/garbage/data.yaml
+epochs: 60
+image_size: 640
+batch: 8
+patience: 12
+positive_classes:
+- garbage

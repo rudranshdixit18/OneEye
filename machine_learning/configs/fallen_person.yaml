@@ -1,0 +1,16 @@
+model_name: fallen_person
+task: classify
+base_model: yolo11s-cls.pt
+data: machine_learning/datasets/processed/fallen_person
+epochs: 60
+image_size: 320
+batch: 16
+patience: 15
+optimizer: AdamW
+learning_rate: 0.0005
+dropout: 0.2
+auto_augment: randaugment
+erasing: 0.2
+fliplr: 0.5
+scale: 0.2
+positive_classes: [fallen_person]

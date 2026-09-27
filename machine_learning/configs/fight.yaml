@@ -1,0 +1,18 @@
+model_name: fight
+task: classify
+base_model: yolo11s-cls.pt
+data: machine_learning/datasets/processed/fight
+epochs: 60
+image_size: 224
+batch: 32
+patience: 12
+optimizer: AdamW
+learning_rate: 0.0005
+dropout: 0.3
+auto_augment: null
+erasing: 0.0
+fliplr: 0.0
+scale: 0.05
+temporal_tiles: 4
+samples_per_video: 4
+positive_classes: [fight, violence]

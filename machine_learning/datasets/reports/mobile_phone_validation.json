@@ -1,0 +1,10 @@
+{
+  "model": "mobile_phone",
+  "task": "detect",
+  "counts": {
+    "train": 2166,
+    "val": 538,
+    "test": 793
+  },
+  "errors": []
+}
